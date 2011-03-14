@@ -1,5 +1,5 @@
 configuration
 
-title "Blog"
+title "Zef.me"
 html index.html
 offline

@@ -1,0 +1,18 @@
+module style
+
+style blogArticleStyle {
+  background: white;
+  margin: 0;
+  padding: 10px;
+}
+
+style summaryStyle {
+  color: gray;
+  font-size: 70%;
+}
+
+style blogHeading {
+  display: block;
+  font-size: 150%;
+  font-weight: bold;
+}

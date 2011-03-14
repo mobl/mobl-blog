@@ -1,0 +1,9 @@
+module model
+
+entity Post {
+  entryId  : String
+  title    : String
+  dateStr  : String
+  summary  : String
+  content  : String
+}

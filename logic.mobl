@@ -1,0 +1,34 @@
+module logic
+
+import model
+import mobl::yql
+import app
+
+function updatePost(post : Post, entry : JSON) : Post {
+  post.entryId = entry.id;
+  post.title = entry.title;
+  post.dateStr = entry.published;
+  post.content = entry.content.content;
+  post.summary = stripHtml(entry.content.content).substring(0, 200);
+  return post;
+}
+
+function stripHtml(s : String) : String {
+  return s.replace(/<[^>]*>/ig, "");
+}
+
+function fetchAndCacheFeed() {
+  if(isOnline()) {
+    var result = YQL.query("select * from feednormalizer where url='" + blogUrl + "' and output='atom_1.0'");
+    var entries = result.feed.entry;
+    foreach(entry in entries) {
+      var post = Post.findBy("entryId", entry.id);
+      if(!post) {
+        post = Post();
+        add(updatePost(post, entry));
+      } else {
+        updatePost(post, entry);
+      }
+    }
+  }
+}

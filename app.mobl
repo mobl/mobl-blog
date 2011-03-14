@@ -1,0 +1,38 @@
+application app
+
+import mobl::ui::generic
+import model
+import style
+import logic
+
+var blogTitle = "Zef.me";
+var blogUrl = "http://zef.me/feed";
+
+control postItem(p : Post) {
+  label(p.title)
+  nl()
+  span(summaryStyle) {
+    label(p.summary + "...")
+  }
+}
+
+control postDetail(p : Post) {
+  label(p.title, style=blogHeading)
+  block(blogArticleStyle) {
+    html(p.content)
+  }
+}
+
+screen root() {
+  header(blogTitle) {
+    button("Reset", onclick={
+      resetDatabase();
+    })
+  }
+  masterDetail(Post.all() order by dateStr desc, postItem, postDetail)
+  script {
+    async {
+      fetchAndCacheFeed();
+    }
+  }
+}
